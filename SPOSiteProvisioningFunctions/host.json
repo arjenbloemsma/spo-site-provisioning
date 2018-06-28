@@ -1,2 +1,6 @@
 {
+  "functionTimeout": "00:10:00",
+  "serviceBus": {
+    "autoRenewTimeout": "00:10:00"
+  }
 }
