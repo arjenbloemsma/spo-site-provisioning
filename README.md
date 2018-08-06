@@ -51,7 +51,7 @@ To run this project locally, just get the sources run, no need to do any additio
 Description of how to run the tests of this project.
 
 ## Functionality
-The operation details of this api can be found in the OpenApi docs, this section describes the overall functionality. Provide a bulleted list describing the main pieces of functionality.
+Each of the Azure functions of which the site collection creation and update process consists will be described here.
 
 ### AddSiteUpdateRequest
 This HTTP triggered function will try to deserialize the message and add the resulting update request to the service bus topic "site-operations-topic".

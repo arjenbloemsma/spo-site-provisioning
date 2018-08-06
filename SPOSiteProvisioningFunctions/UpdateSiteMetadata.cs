@@ -27,7 +27,6 @@ namespace SPOSiteProvisioningFunctions
 
             var somethingWentWrong = false;
             var clientContextManager = new ClientContextManager(new BaseConfiguration(), new CertificateManager());
-            // Todo: validate that URL exists
             var updateMetadataJob = updateMsg.GetBody<UpdateMetadataJob>();
             using (var ctx = clientContextManager.GetAzureADAppOnlyAuthenticatedContext(updateMetadataJob.Url))
             {
@@ -35,7 +34,9 @@ namespace SPOSiteProvisioningFunctions
                 // Maybe use switch statement here. Come up with some better way of resolving
                 // what kind of site we're dealing with (info from property bag or Azure storage table)
 
-                // Specific stuff happens here, like for instance updeating the default column value 'site' for an installation (site is always the same as the Title of an Installation site collection)
+                // Specific stuff happens here, like for instance updating the default column
+                // value 'site' for an installation (metadata value for site is always the same
+                // as the Title of an Installation site collection)
                 if (updateMetadataJob.Url.ToLowerInvariant().Contains("/inst-") == true)
                 {
                     try
