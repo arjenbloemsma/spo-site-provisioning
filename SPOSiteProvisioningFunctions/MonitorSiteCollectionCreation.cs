@@ -32,7 +32,7 @@ namespace SPOSiteProvisioningFunctions
             if (siteCollectionCreationData.TimeStamp == null
                 || DateTime.Now.Subtract(siteCollectionCreationData.TimeStamp) > new TimeSpan(24, 10, 00))
             {
-                log.Info($"SiteCollection {siteCollectionCreationData.FullSiteUrl} was not created within 24 hours or timestamp was empty.");
+                log.Warning($"SiteCollection {siteCollectionCreationData.FullSiteUrl} was not created within 24 hours or timestamp was empty.");
                 return;
             }
 

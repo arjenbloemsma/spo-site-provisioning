@@ -28,7 +28,7 @@ namespace SPOSiteProvisioningFunctions
         {
             log.Info($"C# HTTP trigger function '{FunctionName}' started.");
 
-            // if update paremter was provided always grab template from SPO
+            // if update parameter was provided always grab template from SPO
             bool update = req.GetQueryNameValuePairs()
                 .Any(q => string.Compare(q.Key, "update", true) == 0);
 

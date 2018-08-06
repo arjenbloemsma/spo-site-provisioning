@@ -1,9 +1,3 @@
-using System;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
 using Marlink.SharePoint.Provisioning.Service.Common;
 using Marlink.SharePoint.Provisioning.Service.Common.Security;
 using Marlink.SharePoint.Provisioning.Service.Common.SharePoint;
@@ -12,6 +6,11 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Host;
 using SPOSiteProvisioningFunctions.Model;
+using System;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace SPOSiteProvisioningFunctions
 {

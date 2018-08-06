@@ -109,18 +109,30 @@ namespace SPOSiteProvisioningFunctions
                 log.Info($"Opening ctx to {fullSiteUrl.AbsoluteUri}");
                 using (var newSiteContext = clientContextManager.GetAzureADAppOnlyAuthenticatedContext(fullSiteUrl.AbsoluteUri))
                 {
-                    try
+                    int tryCount = 0;
+                    const int maxTries = 3;
+                    do
                     {
-                        log.Info($"Applying the provisioning template {provisioningTemplateUrl} to {fullSiteUrl.AbsoluteUri}.");
-                        newSiteContext.Web.ApplyProvisioningTemplate(provisioningTemplate, ptai);
-                        log.Info($"Provisioning template has been applied to {fullSiteUrl.AbsoluteUri}.");
-                        templateAppliedWithOutAnyErrors = true;
-                    }
-                    catch (Exception ex)
-                    {
-                        log.Error($"Error occured while applying the provisioning template to {fullSiteUrl.AbsoluteUri}.", ex);
-                        templateAppliedWithOutAnyErrors = false;
-                    }
+                        tryCount++;
+                        try
+                        {
+                            log.Info($"Applying the provisioning template {provisioningTemplateUrl} to {fullSiteUrl.AbsoluteUri}.");
+                            newSiteContext.Web.ApplyProvisioningTemplate(provisioningTemplate, ptai);
+                            log.Info($"Provisioning template has been applied to {fullSiteUrl.AbsoluteUri}.");
+                            templateAppliedWithOutAnyErrors = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            log.Error($"Error occured while applying the provisioning template to {fullSiteUrl.AbsoluteUri}.", ex);
+                            templateAppliedWithOutAnyErrors = false;
+                            if (tryCount <= maxTries)
+                            {
+                                log.Warning($"An error occured while applying the provisioning template, but will try to apply the provisioning template to {fullSiteUrl.AbsoluteUri} once more. (max {maxTries} times, this was attempt number {tryCount}.)");
+                            } else {
+                                log.Warning($"Tried {maxTries} times to apply the provisioning template without succes.");
+                            }
+                        }
+                    } while (templateAppliedWithOutAnyErrors == false && tryCount <= maxTries);
                 }
 
                 if (templateAppliedWithOutAnyErrors == true)
