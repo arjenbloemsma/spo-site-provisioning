@@ -63,7 +63,7 @@ namespace SPOSiteProvisioningFunctions
                             log.Info($"SiteCollection with URL{siteCollectionCreationData.FullSiteUrl} already exists in recycle bin.");
 
                             var provisioningSiteUrl = CloudConfigurationManager.GetSetting("ProvisioningSite");
-                            using (var ctx = clientContextManager.GetAzureADAppOnlyAuthenticatedContext("https://mobsatdev.sharepoint.com/sites/site-provisioning"))
+                            using (var ctx = clientContextManager.GetAzureADAppOnlyAuthenticatedContext(provisioningSiteUrl))
                             {
                                 // Todo: get list title from configuration.
                                 // Assume that the web has a list named "PnPProvisioningJobs". 
