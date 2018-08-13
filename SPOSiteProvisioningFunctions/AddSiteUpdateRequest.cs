@@ -34,13 +34,13 @@ namespace SPOSiteProvisioningFunctions
             }
 
             var bodyContent = req.Content.ReadAsStringAsync().Result;
-            var updateSiteTitleRequest = JsonConvert.DeserializeObject<UpdateMetadataRequest>(bodyContent);
+            var updateMetadataRequest = JsonConvert.DeserializeObject<UpdateMetadataRequest>(bodyContent);
 
-            foreach (UpdateMetadataJob updateMetadataJob in updateSiteTitleRequest.Sites)
+            foreach (UpdateMetadataJob updateMetadataJob in updateMetadataRequest.Sites)
             {
                 var msg = new BrokeredMessage(updateMetadataJob)
                 {
-                    Label = updateSiteTitleRequest.Type
+                    Label = updateMetadataRequest.Type
                 };
                 siteOperationsTopic.Add(msg);
             }
