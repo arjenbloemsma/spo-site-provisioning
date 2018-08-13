@@ -1,8 +1,8 @@
 ﻿namespace SPOSiteProvisioningFunctions.Model
 {
-    public class UpdateMetadataRequest
+    public class UpdateSiteRequest
     {
         public string Type { get; set; }
-        public UpdateMetadataJob[] Sites { get; set; }
+        public UpdateSiteJob[] Sites { get; set; }
     }
 }

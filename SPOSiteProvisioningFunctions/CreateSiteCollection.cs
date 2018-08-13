@@ -12,9 +12,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SPOSiteProvisioningFunctions.Model;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace SPOSiteProvisioningFunctions
 {

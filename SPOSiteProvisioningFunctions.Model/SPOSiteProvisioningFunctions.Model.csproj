@@ -195,8 +195,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SiteCollectionExistsMessage.cs" />
     <Compile Include="SiteTemplate.cs" />
-    <Compile Include="UpdateMetadataJob.cs" />
-    <Compile Include="UpdateMetadataRequest.cs" />
+    <Compile Include="UpdateSiteJob.cs" />
+    <Compile Include="UpdateSiteRequest.cs" />
     <Compile Include="ValidateTemplateCacheMessage.cs" />
   </ItemGroup>
   <ItemGroup>

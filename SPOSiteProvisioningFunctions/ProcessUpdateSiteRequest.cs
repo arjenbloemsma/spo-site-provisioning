@@ -22,7 +22,7 @@ namespace SPOSiteProvisioningFunctions
         {
             log.Info($"C# Service Bus trigger function '{FunctionName}' processed message: {updateMsg.MessageId} (Label': {updateMsg.Label}')");
 
-            var updateMetadataJob = updateMsg.GetBody<UpdateMetadataJob>();
+            var updateMetadataJob = updateMsg.GetBody<UpdateSiteJob>();
             var relativeSiteUrl = new Uri(updateMetadataJob.Url).PathAndQuery;
 
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("AzureWebJobsStorage"));

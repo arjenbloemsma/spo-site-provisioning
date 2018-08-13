@@ -27,7 +27,7 @@ namespace SPOSiteProvisioningFunctions
 
             var somethingWentWrong = false;
             var clientContextManager = new ClientContextManager(new BaseConfiguration(), new CertificateManager());
-            var updateMetadataJob = updateMsg.GetBody<UpdateMetadataJob>();
+            var updateMetadataJob = updateMsg.GetBody<UpdateSiteJob>();
             using (var ctx = clientContextManager.GetAzureADAppOnlyAuthenticatedContext(updateMetadataJob.Url))
             {
                 // ToDo; currently we only support updating the Title (incl. Maritime Installations)
@@ -100,12 +100,11 @@ namespace SPOSiteProvisioningFunctions
 
                 try
                 {
-
                     CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("AzureWebJobsStorage"));
                     CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
                     CloudTable customerDocumentCenterSitesTable = tableClient.GetTableReference(CloudConfigurationManager.GetSetting("SitesTable"));
 
-                    // ToDo: update Title (and other fields) in Azure Storage
+                    // Update columns in Azure Storage table to reflect updates
                     var item = new CustomerDocumentCenterSitesTableEntry
                     {
                         PartitionKey = updateMetadataJob.Type,

@@ -1,6 +1,6 @@
 ﻿namespace SPOSiteProvisioningFunctions.Model
 {
-    public class UpdateMetadataJob
+    public class UpdateSiteJob
     {
         public string Url { get; set; }
         public string Title { get; set; }

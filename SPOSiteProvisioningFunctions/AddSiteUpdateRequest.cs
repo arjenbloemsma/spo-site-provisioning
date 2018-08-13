@@ -34,9 +34,9 @@ namespace SPOSiteProvisioningFunctions
             }
 
             var bodyContent = req.Content.ReadAsStringAsync().Result;
-            var updateMetadataRequest = JsonConvert.DeserializeObject<UpdateMetadataRequest>(bodyContent);
+            var updateMetadataRequest = JsonConvert.DeserializeObject<UpdateSiteRequest>(bodyContent);
 
-            foreach (UpdateMetadataJob updateMetadataJob in updateMetadataRequest.Sites)
+            foreach (UpdateSiteJob updateMetadataJob in updateMetadataRequest.Sites)
             {
                 var msg = new BrokeredMessage(updateMetadataJob)
                 {
