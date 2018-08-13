@@ -182,6 +182,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplyProvisioningTemplateJob.cs" />
     <Compile Include="CreateSiteCollectionJob.cs" />
     <Compile Include="CustomerDocumentCenterSitesTableEntry.cs" />
     <Compile Include="DefaultColumnValue.cs" />

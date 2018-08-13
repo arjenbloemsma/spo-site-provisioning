@@ -42,7 +42,7 @@ namespace SPOSiteProvisioningFunctions
             if (update == true || blob.Exists() == false)
             {
                 GetTemplateFromSharePointOnline(validateTemplateCacheMessage, blob);
-                return req.CreateResponse(HttpStatusCode.OK, $"Template {validateTemplateCacheMessage.TemplateUrl} updated because 'update' paremeter was provided or template did not yest exist in blob storage.");
+                return req.CreateResponse(HttpStatusCode.OK, $"Template {validateTemplateCacheMessage.TemplateUrl} updated because 'update' parameter was provided or template did not yest exist in blob storage.");
             }
             // Check if we have the template that we need in the blob storage, retrieve it from SPO
             // if we don't have it in blob stoarge or if that version in blob storage is older than

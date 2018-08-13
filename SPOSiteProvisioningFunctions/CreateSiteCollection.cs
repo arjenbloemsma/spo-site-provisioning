@@ -49,6 +49,7 @@ namespace SPOSiteProvisioningFunctions
             string blobContent = streamReader.ReadToEnd();
 
             JObject provisioningJobFile = JObject.Parse(blobContent);
+            var provisioningTemplateUrl = provisioningJobFile["ProvisioningTemplateUrl"].Value<string>();
             var tenantUrl = new Uri(CloudConfigurationManager.GetSetting("TenantUrl"));
             Uri.TryCreate(tenantUrl, 
                 provisioningJobFile["RelativeUrl"].Value<string>(), 
@@ -92,6 +93,7 @@ namespace SPOSiteProvisioningFunctions
                         {
                             FullSiteUrl = siteCreationProperties.Url,
                             ListItemID = createSiteCollectionJob.ListItemID,
+                            ProvisioningTemplateUrl = provisioningTemplateUrl,
                             TimeStamp = DateTime.Now,
                             CreateSiteCollectionJob = createSiteCollectionJob
                         });

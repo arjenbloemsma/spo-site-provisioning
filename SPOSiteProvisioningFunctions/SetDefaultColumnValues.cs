@@ -29,17 +29,21 @@ namespace SPOSiteProvisioningFunctions
         {
             log.Info($"C# Service Bus trigger function '{FunctionName}' processed message: {setDefaultColumnValuesMsg.MessageId} (Label': {setDefaultColumnValuesMsg.Label}')");
 
+            /*
+             * The following line should work, but doesn't, so small workaround here...
+             */
+            //var applyProvisioningTemplateJobAsJson = setDefaultColumnValuesMsg.GetBody<ApplyProvisioningTemplateJob>();
             var stream = setDefaultColumnValuesMsg.GetBody<Stream>();
             StreamReader streamReader = new StreamReader(stream);
-            string createSiteCollectionJobAsJson = streamReader.ReadToEnd();
-            var createSiteCollectionJob = JsonConvert.DeserializeObject<CreateSiteCollectionJob>(createSiteCollectionJobAsJson);
+            string applyProvisioningTemplateJobAsJson = streamReader.ReadToEnd();
+            var applyProvisioningTemplateJob = JsonConvert.DeserializeObject<ApplyProvisioningTemplateJob>(applyProvisioningTemplateJobAsJson);
 
             // ToDo: instead of retrieving this info from blob, get it from table storage
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("AzureWebJobsStorage"));
             CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
             CloudBlobContainer container = blobClient.GetContainerReference(CloudConfigurationManager.GetSetting("JobFilesContainer"));
 
-            var blob = container.GetBlobReference(createSiteCollectionJob.FileNameWithExtension);
+            var blob = container.GetBlobReference(applyProvisioningTemplateJob.FileNameWithExtension);
             var blobStream = new MemoryStream();
             blob.DownloadToStream(blobStream);
             streamReader = new StreamReader(blobStream);

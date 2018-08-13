@@ -26,27 +26,27 @@ namespace SPOSiteProvisioningFunctions
 
         [FunctionName(FunctionName)]
         public static void Run(
-            [ServiceBusTrigger("new-sites-topic", "apply-template-subscription", AccessRights.Manage, Connection = "ManageTopicConnection")]BrokeredMessage newSiteMsg,
+            [ServiceBusTrigger("site-updates-topic", "apply-template-subscription", AccessRights.Manage, Connection = "ManageTopicConnection")]BrokeredMessage updateMsg,
             [ServiceBus("new-sites-topic", Connection = "ManageTopicConnection")]ICollector<BrokeredMessage> newSitesTopic,
             ExecutionContext executionContext,
             TraceWriter log)
         {
-            log.Info($"C# Service Bus trigger function '{FunctionName}' processed message: {newSiteMsg.MessageId} (Label': {newSiteMsg.Label}')");
+            log.Info($"C# Service Bus trigger function '{FunctionName}' processed message: {updateMsg.MessageId} (Label': {updateMsg.Label}')");
 
             /*
              * The following line should work, but doesn't, so small workaround here...
              */
-            //var createSiteCollectionJob = newSiteMsg.GetBody<CreateSiteCollectionJob>();
-            var stream = newSiteMsg.GetBody<Stream>();
+            //var applyProvisioningTemplateJobAsJson = updateMsg.GetBody<ApplyProvisioningTemplateJob>();
+            var stream = updateMsg.GetBody<Stream>();
             StreamReader streamReader = new StreamReader(stream);
-            string createSiteCollectionJobAsJson = streamReader.ReadToEnd();
-            var createSiteCollectionJob = JsonConvert.DeserializeObject<CreateSiteCollectionJob>(createSiteCollectionJobAsJson);
+            string applyProvisioningTemplateJobAsJson = streamReader.ReadToEnd();
+            var applyProvisioningTemplateJob = JsonConvert.DeserializeObject<ApplyProvisioningTemplateJob>(applyProvisioningTemplateJobAsJson);
 
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("AzureWebJobsStorage"));
             CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
             CloudBlobContainer container = blobClient.GetContainerReference(CloudConfigurationManager.GetSetting("JobFilesContainer"));
 
-            var blob = container.GetBlobReference(createSiteCollectionJob.FileNameWithExtension);
+            var blob = container.GetBlobReference(applyProvisioningTemplateJob.FileNameWithExtension);
             var blobStream = new MemoryStream();
             blob.DownloadToStream(blobStream);
             streamReader = new StreamReader(blobStream);
@@ -72,7 +72,7 @@ namespace SPOSiteProvisioningFunctions
                 // Todo: get list title from configuration.
                 // Assume that the web has a list named "PnPProvisioningJobs". 
                 List provisioningJobsList = ctx.Web.Lists.GetByTitle("PnPProvisioningJobs");
-                ListItem listItem = provisioningJobsList.GetItemById(createSiteCollectionJob.ListItemID);
+                ListItem listItem = provisioningJobsList.GetItemById(applyProvisioningTemplateJob.ListItemID);
                 // Write a new value to the PnPProvisioningJobStatus field of
                 // the PnPProvisioningJobs item.
                 listItem["PnPProvisioningJobStatus"] = "Running (applying template)";
@@ -137,8 +137,8 @@ namespace SPOSiteProvisioningFunctions
 
                 if (templateAppliedWithOutAnyErrors == true)
                 {
-                    var setDefaultColumnValuesMsg = new BrokeredMessage(createSiteCollectionJob,
-                        new DataContractJsonSerializer(typeof(CreateSiteCollectionJob)))
+                    var setDefaultColumnValuesMsg = new BrokeredMessage(applyProvisioningTemplateJob,
+                        new DataContractJsonSerializer(typeof(ApplyProvisioningTemplateJob)))
                     {
                         ContentType = "application/json",
                         Label = "SetDefaultColumnValues"

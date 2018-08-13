@@ -21,7 +21,7 @@ namespace SPOSiteProvisioningFunctions
         [FunctionName(FunctionName)]
         public static async void Run(
             [OrchestrationTrigger] DurableOrchestrationContext orchestrationContext,
-            [ServiceBus("new-sites-topic", Connection = "ManageTopicConnection")]ICollector<BrokeredMessage> newSitesTopic,
+            [ServiceBus("site-updates-topic", Connection = "ManageTopicConnection")]ICollector<BrokeredMessage> updateSitesTopic,
             TraceWriter log)
         {
             log.Info($"C# Orchestration trigger function '{FunctionName}' started.");
@@ -96,13 +96,19 @@ namespace SPOSiteProvisioningFunctions
                 {
                     log.Info($"SiteCollection {siteCollectionCreationData.FullSiteUrl} created.");
 
-                    var createSiteCollectionMsg = new BrokeredMessage(siteCollectionCreationData.CreateSiteCollectionJob,
-                        new DataContractJsonSerializer(typeof(CreateSiteCollectionJob)))
+                    var applyProvisioningTemplateJob = new ApplyProvisioningTemplateJob()
+                    {
+                        ListItemID = siteCollectionCreationData.ListItemID,
+                        FileNameWithExtension = siteCollectionCreationData.CreateSiteCollectionJob.FileNameWithExtension,
+                        ProvisioningTemplateUrl = siteCollectionCreationData.ProvisioningTemplateUrl
+                    };
+                    var applyProvisioningTemplateMsg = new BrokeredMessage(applyProvisioningTemplateJob,
+                        new DataContractJsonSerializer(typeof(ApplyProvisioningTemplateJob)))
                     {
                         ContentType = "application/json",
-                        Label = "ApplyTemplate"
+                        Label = "UpdateSiteTemplate"
                     };
-                    newSitesTopic.Add(createSiteCollectionMsg);
+                    updateSitesTopic.Add(applyProvisioningTemplateMsg);
                 }
             }
         }
