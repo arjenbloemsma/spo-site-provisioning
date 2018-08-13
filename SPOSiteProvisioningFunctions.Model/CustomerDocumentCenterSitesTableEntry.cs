@@ -22,5 +22,6 @@ namespace SPOSiteProvisioningFunctions.Model
         public string SiteID { get; set; }
         public int ProvisioningStatus { get; set; }
         public DateTime? Updated { get; set; }
+        public string ProvisioningTemplateUrl { get; set; }
     }
 }

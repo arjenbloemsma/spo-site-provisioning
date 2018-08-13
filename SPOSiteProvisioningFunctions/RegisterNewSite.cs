@@ -46,6 +46,7 @@ namespace SPOSiteProvisioningFunctions
 
             JObject provisioningJobFile = JObject.Parse(blobContent);
             var relativeUrl = provisioningJobFile["RelativeUrl"].Value<string>();
+            var provisioningTemplateUrl = provisioningJobFile["ProvisioningTemplateUrl"].Value<string>();
             // get JSON result objects into a list
             IList<JToken> parameters = provisioningJobFile["TemplateParameters"].Children().ToList();
             // serialize JSON results into .NET objects
@@ -77,6 +78,10 @@ namespace SPOSiteProvisioningFunctions
                 case "PERS":
                     rowkey = personId;
                     break;
+                // Placeholder for future functionality
+                //case "PROJ":
+                //    rowkey = projectId;
+                //    break;
                 case "TEAM":
                     rowkey = relativeUrl.Substring("/teams/".Length);
                     break;
@@ -104,7 +109,8 @@ namespace SPOSiteProvisioningFunctions
                 Site = templateParameters.TryGetReturnValue(nameof(CustomerDocumentCenterSitesTableEntry.Site)),
                 SiteID = templateParameters.TryGetReturnValue(nameof(CustomerDocumentCenterSitesTableEntry.SiteID)),
                 ProvisioningStatus = 0,
-                Updated = null
+                Updated = null,
+                ProvisioningTemplateUrl = provisioningTemplateUrl
             };
         }
 
