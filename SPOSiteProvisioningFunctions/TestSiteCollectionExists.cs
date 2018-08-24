@@ -52,6 +52,7 @@ namespace SPOSiteProvisioningFunctions
                         type = fullSiteUrl.PathAndQuery.Substring("/teams/".Length, 4).ToUpperInvariant();
                     }
                     siteCollectionExistsMessage.AbsoluteUri = fullSiteUrl.AbsoluteUri;
+                    siteCollectionExistsMessage.RelativeUrl = fullSiteUrl.PathAndQuery;
                     siteCollectionExistsMessage.Type = type;
                     siteCollectionExistsMessage.Exists = true;
                 }
