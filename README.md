@@ -20,7 +20,7 @@ SharePoint Online site collections are provisioned using a fork of the [PnP prov
 For updating site collections, this could be a simple update that involves an adjustment of some metadata or a more complext update like applying an updated template, a POST request must be made to an endpoint. This endpoint expects a JSON message which must contain the info about the update that should take place. One single request can contain update info about one or multiple site collections.
 
 ## Documentation
-Todo: add link to technical design.
+[Modern Site Provisioning and Update Functionality](https://mobsat.sharepoint.com/:u:/s/Documentcenter/EcoZJv5IdM1HuXVT5uZMJZQBX45AU4d8H90UGIRTULzlHg)
 
 ## Dependencies
 Internal dependencies:
@@ -78,7 +78,7 @@ This function is triggered by messages on the subscription 'register-site-subscr
 This function is triggered by messages on the subscription 'set-default-column-values-subscription' of the service bus topic 'new-sites-topic'. The message will contain the name of a job file. The function will retrieve the job file from blob storage and set the specified template parameters as default column values on the specified site collection. 
 
 ### TestSiteCollectionExists
-This HTTP triggered function will test if a site collection exists at the (relative) url specified in the query string and return a JSON message with information about the site. The property 'Exists' of this message will always have value and is either true if the site exists or false if it doesn't. Other properties like 'Title' or ‘Relative URL’ will only have a value if the site does exist. Useful in other services that do not have direct access to Sharepoint Online.
+This HTTP triggered function will test if a site collection exists at the (relative) url specified in the query string and return a JSON message with information about the site. The property 'Exists' of this message will always have value and is either true if the site exists or false if it doesn't. Other properties like 'Title' or â€˜Relative URLâ€™ will only have a value if the site does exist. Useful in other services that do not have direct access to Sharepoint Online.
 
 ### UpdateSiteMetadata
 This function is triggered by messages on the subscription 'update-metadata-subscription' of the service bus topic 'site-updates-topic'. The message will contain the metadata to update (currently only Title is supported). The function will retrieve those new values and will update them in all required places; so not only the metadata of the site collection (title, property bag values, default column values), but also in the storage table 'CustomerDocumentCenterSites'.  
