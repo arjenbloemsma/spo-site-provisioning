@@ -20,7 +20,7 @@ SharePoint Online site collections are provisioned using a fork of the [PnP prov
 For updating site collections, this could be a simple update that involves an adjustment of some metadata or a more complext update like applying an updated template, a POST request must be made to an endpoint. This endpoint expects a JSON message which must contain the info about the update that should take place. One single request can contain update info about one or multiple site collections.
 
 ## Documentation
-Todo: add link to technical design.
+[Modern Site Provisioning and Update Functionality](https://mobsat.sharepoint.com/:u:/s/Documentcenter/EcoZJv5IdM1HuXVT5uZMJZQBX45AU4d8H90UGIRTULzlHg)
 
 ## Dependencies
 Internal dependencies:
@@ -87,7 +87,7 @@ This function is triggered by messages on the subscription 'update-metadata-subs
 This function is triggered by messages on the subscription 'update-template-subscription' of the service bus topic 'site-updates-topic'. The message will contain references to info required to apply or update the site template. The function will retrieve the template file from SharePoint Online, but only if we don't have it already in Azure Storage as a blob or if that version in Azure Storage is older than one hour. This to make sure that the site collection has the latest version of the provisioning template applied to it, while not constantly downloading the same template file from SharePoint Online.
 
 ### ValidateTemplateCache
-This HTTP triggered function will try to deserialize the message and update the template specified in the message in the blob storage. This is done by retrieving the template file from SharePoint Online, but only if we don't have it already in Azure Storage as a blob or if that version in Azure Storage is older than one hour Useful when a new template is uploaded to SharePoint Online by the administrator to make sure that the version of this template in Azure Storage is immediately updated.
+This HTTP triggered function will try to deserialize the message and update the template specified in the message in the blob storage. This is done by retrieving the template file from SharePoint Online, but only if we don't have it already in Azure Storage as a blob or if that version in Azure Storage is older than one hour. Useful when a new template is uploaded to SharePoint Online by the administrator to make sure that the version of this template in Azure Storage is immediately updated.
 
 ## Project Team
 Development contributers can be found here: 
