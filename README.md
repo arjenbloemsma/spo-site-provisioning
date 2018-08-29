@@ -57,7 +57,7 @@ Each of the Azure functions of which the site collection creation and update pro
 This HTTP triggered function will try to deserialize the message and add the resulting update request to the service bus topic "site-operations-topic".
 
 ### ApplyProvisioningTemplate
-This function is triggered by messages on the subscription 'apply-template-subscription' of the service bus topic 'new-sites-topic'. The message will contain the name of a job file. The function will retrieve the job file from blob storage and get all required info from it in order to apply the template to the specified site collection. Once done it will update the status in the PnPProvisioningJobs list to 'Running (applying template)'.
+This function is triggered by messages on the subscription 'apply-template-subscription' of the service bus topic 'site-updates-topic'. The message will contain the name of a job file. The function will retrieve the job file from blob storage and get all required info from it in order to apply the template to the specified site collection. Once done it will update the status in the PnPProvisioningJobs list to 'Running (applying template)'.
 
 ### CreateSiteCollection
 This function is triggered by messages on the subscription 'create-site-subscription' of the service bus topic 'new-sites-topic'. The message will contain the name of a job file. The function will retrieve the job file from blob storage and get all required info from it in order to start the creation the site collection with the specified metadata. The function will also trigger a durable function [MonitorSiteCollectionCreation](#monitorsitecollectioncreation).
@@ -83,8 +83,11 @@ This HTTP triggered function will test if a site collection exists at the (relat
 ### UpdateSiteMetadata
 This function is triggered by messages on the subscription 'update-metadata-subscription' of the service bus topic 'site-updates-topic'. The message will contain the metadata to update (currently only Title is supported). The function will retrieve those new values and will update them in all required places; so not only the metadata of the site collection (title, property bag values, default column values), but also in the storage table 'CustomerDocumentCenterSites'.  
 
+### UpdateSiteTemplate
+This function is triggered by messages on the subscription 'update-template-subscription' of the service bus topic 'site-updates-topic'. The message will contain references to info required to apply or update the site template. The function will retrieve the template file from SharePoint Online, but only if we don't have it already in Azure Storage as a blob or if that version in Azure Storage is older than one hour. This to make sure that the site collection has the latest version of the provisioning template applied to it, while not constantly downloading the same template file from SharePoint Online.
+
 ### ValidateTemplateCache
-This HTTP triggered function will try to deserialize the message and update the template specified in the message in the blob storage. This is done by retrieving the template file from SharePoint Online, but only if we don't have it already in blob storage or if that version in blob storage is older than one hour.
+This HTTP triggered function will try to deserialize the message and update the template specified in the message in the blob storage. This is done by retrieving the template file from SharePoint Online, but only if we don't have it already in Azure Storage as a blob or if that version in Azure Storage is older than one hour.
 
 ## Project Team
 Development contributers can be found here: 
