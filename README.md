@@ -87,7 +87,7 @@ This function is triggered by messages on the subscription 'update-metadata-subs
 This function is triggered by messages on the subscription 'update-template-subscription' of the service bus topic 'site-updates-topic'. The message will contain references to info required to apply or update the site template. The function will retrieve the template file from SharePoint Online, but only if we don't have it already in Azure Storage as a blob or if that version in Azure Storage is older than one hour. This to make sure that the site collection has the latest version of the provisioning template applied to it, while not constantly downloading the same template file from SharePoint Online.
 
 ### ValidateTemplateCache
-This HTTP triggered function will try to deserialize the message and update the template specified in the message in the blob storage. This is done by retrieving the template file from SharePoint Online, but only if we don't have it already in Azure Storage as a blob or if that version in Azure Storage is older than one hour Useful when a new template is uploaded to SharePoint Online by the administrator to make sure that the version of this template in Azure Storage is immediately updated.
+This HTTP triggered function will try to deserialize the message and update the template specified in the message in the blob storage. This is done by retrieving the template file from SharePoint Online, but only if we don't have it already in Azure Storage as a blob or if that version in Azure Storage is older than one hour. Useful when a new template is uploaded to SharePoint Online by the administrator to make sure that the version of this template in Azure Storage is immediately updated.
 
 ## Project Team
 Development contributers can be found here: 
