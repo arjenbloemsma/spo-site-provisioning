@@ -20,7 +20,7 @@ SharePoint Online site collections are provisioned using a fork of the [PnP prov
 For updating site collections, this could be a simple update that involves an adjustment of some metadata or a more complext update like applying an updated template, a POST request must be made to an endpoint. This endpoint expects a JSON message which must contain the info about the update that should take place. One single request can contain update info about one or multiple site collections.
 
 ## Documentation
-[Modern Site Provisioning and Update Functionality](https://mobsat.sharepoint.com/:u:/s/Documentcenter/EcoZJv5IdM1HuXVT5uZMJZQBX45AU4d8H90UGIRTULzlHg)
+ToDo
 
 ## Dependencies
 Internal dependencies:
@@ -92,4 +92,3 @@ This HTTP triggered function will try to deserialize the message and update the 
 ## Project Team
 Development contributers can be found here: 
 
-`[https://github.com/marlinknl/spo-site-provisioning/graphs/contributors]`
