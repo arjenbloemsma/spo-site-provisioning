@@ -11,6 +11,7 @@ namespace SPOSiteProvisioningFunctions.Model
         public string SiteContext { get; set; }
         public string PersonId { get; set; }
         public string InstallationContext { get; set; }
+        public string ProjectContext { get; set; }
         public string CallSign { get; set; }
         public string IMO { get; set; }
         public string InstallationId { get; set; }

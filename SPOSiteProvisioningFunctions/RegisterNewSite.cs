@@ -65,6 +65,8 @@ namespace SPOSiteProvisioningFunctions
             var siteContext = templateParameters.TryGetReturnValue(nameof(CustomerDocumentCenterSitesTableEntry.SiteContext));
             var installationId = templateParameters.TryGetReturnValue(nameof(CustomerDocumentCenterSitesTableEntry.InstallationId));
             var personId = templateParameters.TryGetReturnValue(nameof(CustomerDocumentCenterSitesTableEntry.PersonId));
+            var projectContext = templateParameters.TryGetReturnValue(nameof(CustomerDocumentCenterSitesTableEntry.ProjectContext));
+            
 
             var rowkey = companyContext;
             switch (partitionKey)
@@ -78,10 +80,9 @@ namespace SPOSiteProvisioningFunctions
                 case "PERS":
                     rowkey = personId;
                     break;
-                // Placeholder for future functionality
-                //case "PROJ":
-                //    rowkey = projectId;
-                //    break;
+                case "PROJ":
+                    rowkey = projectContext;
+                    break;
                 case "TEAM":
                     rowkey = relativeUrl.Substring("/teams/".Length);
                     break;
@@ -100,6 +101,7 @@ namespace SPOSiteProvisioningFunctions
                 SiteContext = siteContext,
                 InstallationId = installationId,
                 PersonId = personId,
+                ProjectContext = projectContext,
                 CallSign = templateParameters.TryGetReturnValue(nameof(CustomerDocumentCenterSitesTableEntry.CallSign)),
                 IMO = templateParameters.TryGetReturnValue(nameof(CustomerDocumentCenterSitesTableEntry.IMO)),
                 InstallationType = templateParameters.TryGetReturnValue(nameof(CustomerDocumentCenterSitesTableEntry.InstallationType)),
